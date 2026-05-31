@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Práctica Métodos Inner y setAtributte</title>
+    <style>
+        body{
+            background-color:rgb(245, 245, 220);
+        }
+
+        .contenedor{
+            display: flex;
+            flex-direction: row;
+            gap: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>¿Dónde quieres viajar?</h1>
+    <br>
+    <div id="respuesta" style="font-size: large;"></div>
+    <br>
+    <br>
+    <div id="contenedor" class="contenedor">
+        <div>
+            <img id="imagen_destino" src="" width="700">
+        </div>
+        <div>
+            <select>
+                <option>Default</option>
+                <option>Coliseo Romano</option>
+                <option>Artículos</option>
+                <option>Torre Eiffel de París</option>
+                <option>Portugal</option>
+                <option>Sevilla</option>
+            </select>
+        </div>
+    </div>
+    <script src="inner.js"></script>
+</body>
+</html>

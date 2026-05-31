@@ -1,0 +1,40 @@
+[
+    {
+        "titulo" : "La gran aventura inesperada",
+        "anyo de estreno" : 1979,
+        "genero" : "Comedia",
+        "duracion en minutos" : 94,
+        "lista de actores principales" : [
+            "Graham Chapman", 
+            "John Cleese", 
+            "Terry Gilliam", 
+            "Eric Idle", 
+            "Terry Jones", 
+            "Michael Palin"
+        ]
+    },
+    {
+        "titulo": "Un viaje a través del destino",
+        "anyo de estreno": 1994,
+        "genero": "Drama",
+        "duracion en minutos": 142,
+        "lista de actores principales": [
+            "Tom Hanks",
+            "Robin Wright",
+            "Gary Sinise",
+            "Sally Field"
+        ]
+    },
+    {
+        "titulo": "Crónicas de una ciudad olvidada",
+        "anyo de estreno": 1984,
+        "genero": "Crimen",
+        "duracion en minutos": 229,
+        "lista de actores principales": [
+            "Robert De Niro",
+            "James Woods",
+            "Elizabeth McGovern",
+            "Tuesday Weld"
+        ]
+    }
+]

@@ -1,0 +1,27 @@
+class CuentaBancaria {
+    constructor(titular, iban, saldo, activa) {
+        this.titular = titular;
+        this.iban = iban;
+        this.saldo = saldo;
+        this.activa = activa;
+    }
+
+    // Método para mostrar información
+    mostrarInfo() {
+        console.log("Titular: " + this.titular);
+        console.log("IBAN: " + this.iban);
+        console.log("Saldo: " + this.saldo + "€");
+        console.log("Cuenta activa: " + (this.activa ? "Sí" : "No"));
+        console.log("-----------------------------");
+    }
+
+    // Método para retirar dinero
+    retirar(cantidad) {
+        if (cantidad > this.saldo) {
+            console.log(" No puedes retirar más dinero del saldo disponible.");
+        } else {
+            this.saldo -= cantidad;
+            console.log(" Retirada realizada. Nuevo saldo: " + this.saldo + "€");
+        }
+    }
+}

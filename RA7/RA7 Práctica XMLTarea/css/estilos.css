@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+}
+
+section {
+    width: 80%;
+    margin: 50px auto;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+div {
+    padding: 20px;
+}
+
+#cartel div {
+    cursor: pointer;
+    background-color: beige;
+    border-radius: 10px;
+    border: 5px solid white;
+}
+
+p {
+    margin: 10px 0;
+}

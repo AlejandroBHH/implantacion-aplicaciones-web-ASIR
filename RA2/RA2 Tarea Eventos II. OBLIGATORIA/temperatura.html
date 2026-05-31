@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control de Temperatura</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0f1628;
+      --border: #1e3a5f;
+      --accent: #00d4ff;
+      --accent2: #ff6b35;
+      --text: #c8daf0;
+      --dim: #4a6080;
+      --cold: #4fc3f7;
+      --ideal: #66bb6a;
+      --warm: #ffa726;
+      --hot: #ef5350;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,107,53,0.05) 0%, transparent 50%);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .header {
+      margin-bottom: 32px;
+    }
+
+    .header .label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .header h1 span {
+      color: var(--accent);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .input-group {
+      margin-bottom: 24px;
+    }
+
+    .input-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .input-wrapper:focus-within {
+      border-color: var(--accent);
+    }
+
+    input[type="number"] {
+      background: rgba(0,212,255,0.03);
+      border: none;
+      color: #fff;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 28px;
+      padding: 14px 16px;
+      width: 100%;
+      outline: none;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .unit {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 20px;
+      color: var(--dim);
+      padding: 0 16px;
+      background: rgba(0,0,0,0.2);
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+    }
+
+    button {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 14px;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 0;
+    }
+
+    button:hover::before {
+      transform: translateX(0);
+    }
+
+    button:hover {
+      color: var(--bg);
+    }
+
+    button span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .resultado {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 3px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resultado.visible {
+      display: block;
+    }
+
+    .resultado::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+    }
+
+    .resultado.cold { background: rgba(79,195,247,0.08); border: 1px solid rgba(79,195,247,0.3); }
+    .resultado.cold::before { background: var(--cold); }
+    .resultado.ideal { background: rgba(102,187,106,0.08); border: 1px solid rgba(102,187,106,0.3); }
+    .resultado.ideal::before { background: var(--ideal); }
+    .resultado.warm { background: rgba(255,167,38,0.08); border: 1px solid rgba(255,167,38,0.3); }
+    .resultado.warm::before { background: var(--warm); }
+    .resultado.hot { background: rgba(239,83,80,0.08); border: 1px solid rgba(239,83,80,0.3); }
+    .resultado.hot::before { background: var(--hot); }
+    .resultado.error { background: rgba(100,100,100,0.08); border: 1px solid rgba(100,100,100,0.3); }
+
+    .resultado-status {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .resultado.cold .resultado-status { color: var(--cold); }
+    .resultado.ideal .resultado-status { color: var(--ideal); }
+    .resultado.warm .resultado-status { color: var(--warm); }
+    .resultado.hot .resultado-status { color: var(--hot); }
+    .resultado.error .resultado-status { color: var(--dim); }
+
+    .resultado-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    .gauge {
+      margin-top: 24px;
+      height: 4px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 2px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .gauge.visible {
+      display: block;
+    }
+
+    .gauge-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.6s ease, background 0.6s ease;
+    }
+
+    .icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="label">Sistema domótico v2.1</div>
+    <h1>Control de <span>Temperatura</span></h1>
+  </div>
+
+  <div class="panel">
+    <div class="input-group">
+      <label class="input-label" for="temperatura">Temperatura actual</label>
+      <div class="input-wrapper">
+        <input type="number" id="temperatura" placeholder="20" step="0.1">
+        <div class="unit">°C</div>
+      </div>
+    </div>
+
+    <button id="btnComprobar"><span>Comprobar temperatura</span></button>
+
+    <div class="gauge" id="gauge">
+      <div class="gauge-fill" id="gaugeFill"></div>
+    </div>
+
+    <div class="resultado" id="resultado">
+      <div class="icon" id="resultIcon"></div>
+      <div class="resultado-status" id="resultStatus"></div>
+      <div class="resultado-text" id="resultText"></div>
+    </div>
+  </div>
+
+  <div class="footer">DIGITECHFP · ASIR 2025–2026</div>
+</div>
+
+<script>
+  const inputTemp = document.getElementById("temperatura");
+  const btn = document.getElementById("btnComprobar");
+  const resultado = document.getElementById("resultado");
+  const resultIcon = document.getElementById("resultIcon");
+  const resultStatus = document.getElementById("resultStatus");
+  const resultText = document.getElementById("resultText");
+  const gauge = document.getElementById("gauge");
+  const gaugeFill = document.getElementById("gaugeFill");
+
+  btn.addEventListener("click", function () {
+    const temp = Number(inputTemp.value);
+
+    // Validación
+    if (inputTemp.value === "" || isNaN(temp)) {
+      resultado.className = "resultado visible error";
+      resultIcon.textContent = "⚠️";
+      resultStatus.textContent = "ERROR";
+      resultText.textContent = "Por favor ingresa una temperatura válida.";
+      gauge.className = "gauge";
+      return;
+    }
+
+    // Calcular porcentaje para la barra (rango -20 a 50)
+    const pct = Math.min(100, Math.max(0, ((temp + 20) / 70) * 100));
+    gauge.className = "gauge visible";
+    gaugeFill.style.width = pct + "%";
+
+    resultado.className = "resultado visible";
+
+    if (temp < 15) {
+      resultado.classList.add("cold");
+      resultIcon.textContent = "🧊";
+      resultStatus.textContent = "ALERTA · BAJA";
+      resultText.textContent = "Temperatura baja. Encendiendo calefacción.";
+      gaugeFill.style.background = "#4fc3f7";
+    } else if (temp >= 15 && temp <= 22) {
+      resultado.classList.add("ideal");
+      resultIcon.textContent = "✅";
+      resultStatus.textContent = "ESTADO · ÓPTIMO";
+      resultText.textContent = "Temperatura ideal. Sistema estable.";
+      gaugeFill.style.background = "#66bb6a";
+    } else if (temp > 22 && temp <= 30) {
+      resultado.classList.add("warm");
+      resultIcon.textContent = "🌡️";
+      resultStatus.textContent = "AVISO · ALTA";
+      resultText.textContent = "Temperatura alta. Activando ventilación.";
+      gaugeFill.style.background = "#ffa726";
+    } else {
+      resultado.classList.add("hot");
+      resultIcon.textContent = "🔥";
+      resultStatus.textContent = "ALERTA · CRÍTICA";
+      resultText.textContent = "Alerta: temperatura excesiva. Activando enfriamiento máximo.";
+      gaugeFill.style.background = "#ef5350";
+    }
+  });
+
+  // Enter también ejecuta
+  inputTemp.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") btn.click();
+  });
+</script>
+
+</body>
+</html>

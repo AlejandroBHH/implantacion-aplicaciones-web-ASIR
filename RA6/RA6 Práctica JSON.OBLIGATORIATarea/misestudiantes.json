@@ -1,0 +1,34 @@
+[
+    {
+        "nombre": "María",
+        "apellidos": "Sanchez",
+        "edad":"31",
+        "curso actual":"2º DAM",
+        "lista de asignaturas matriculadas": [
+            "Desarrollo de Interfaces", 
+            "Programación Android", 
+            "Acceso a Datos", 
+            "Ciberseguridad", 
+            "Ingles", 
+            "Digitalización",
+            "Sostenibilidad",
+            "Procesos",
+            "Sistemas de Gestión Empresarial"
+        ]
+    },
+    {
+        "nombre": "Esther",
+        "apellidos": "Gómez",
+        "edad":"23",
+        "curso actual":"Asir",
+        "lista de asignaturas matriculadas": [
+            "Redes", 
+            "Sistemas", 
+            "Inglés", 
+            "Ciberseguridad", 
+            "Empresa", 
+            "Desarrollo de interfaces",
+            "Lenguaje de marcas"
+        ]
+    }
+]

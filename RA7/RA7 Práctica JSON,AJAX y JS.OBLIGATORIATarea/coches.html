@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concesionario</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #f5f3ef;
+      --white: #ffffff;
+      --text: #1a1a1a;
+      --dim: #888;
+      --border: #e0ddd8;
+      --accent: #c8a96e;
+      --accent-dark: #a8873e;
+      --tag-bg: #1a1a1a;
+      --tag-text: #f5f3ef;
+      --diesel: #2c4a3e;
+      --gasolina: #8b3a2a;
+      --hibrido: #2a4a6b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--text);
+      color: var(--bg);
+      padding: 40px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .brand {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    header h1 {
+      font-size: 42px;
+      font-weight: 300;
+      letter-spacing: -1px;
+    }
+
+    header h1 strong {
+      font-weight: 600;
+    }
+
+    .header-meta {
+      text-align: right;
+      font-size: 13px;
+      color: #888;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .header-meta span {
+      display: block;
+      color: var(--accent);
+      font-size: 24px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      margin-top: 4px;
+    }
+
+    .filters {
+      padding: 20px 60px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      font-family: 'DM Mono', monospace;
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--bg);
+    }
+
+    main {
+      padding: 40px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    #contenedor {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .coche-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    .coche-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background: #e8e5e0;
+    }
+
+    .card-img-placeholder {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #e8e5e0 0%, #d5d0c8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: #bbb;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .card-marca {
+      font-size: 12px;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 4px;
+    }
+
+    .card-precio {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+
+    .card-precio small {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--dim);
+    }
+
+    .card-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .spec {
+      background: var(--bg);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .spec-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 4px;
+    }
+
+    .spec-value {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .motor-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .motor-Diesel { background: #e8f0ed; color: var(--diesel); }
+    .motor-Gasolina { background: #f5ece9; color: var(--gasolina); }
+    .motor-Híbrido, .motor-Hibrido { background: #e8eff5; color: var(--hibrido); }
+    .motor-Eléctrico, .motor-Electrico { background: #eaf5e8; color: #2a5e2a; }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--dim);
+      font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 30px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .filters { padding: 16px 24px; flex-wrap: wrap; }
+      main { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="brand">Motor · Select</div>
+    <h1>Vehículos <strong>disponibles</strong></h1>
+  </div>
+  <div class="header-meta">
+    stock actual
+    <span id="totalCount">0</span>
+  </div>
+</header>
+
+<div class="filters">
+  <span class="filter-label">Motor:</span>
+  <button class="filter-btn active" data-filter="todos" onclick="filtrar(this)">Todos</button>
+  <button class="filter-btn" data-filter="Diesel" onclick="filtrar(this)">Diésel</button>
+  <button class="filter-btn" data-filter="Gasolina" onclick="filtrar(this)">Gasolina</button>
+</div>
+
+<main>
+  <div id="contenedor"></div>
+</main>
+
+<script>
+  // Datos JSON embebidos (equivale a cargar coches.json con fetch)
+  const jsonData = {
+    "coches": [
+      {
+        "marca": "BMW",
+        "modelo": "Serie 3",
+        "kilometros": "85.000 km",
+        "anio": 2018,
+        "precio": 22000,
+        "motor": "Diesel",
+        "imagen": null
+      },
+      {
+        "marca": "Fiat",
+        "modelo": "500",
+        "kilometros": "60.000 km",
+        "anio": 2019,
+        "precio": 12000,
+        "motor": "Gasolina",
+        "imagen": null
+      },
+      {
+        "marca": "Volkswagen",
+        "modelo": "Golf",
+        "kilometros": "95.000 km",
+        "anio": 2017,
+        "precio": 15000,
+        "motor": "Diesel",
+        "imagen": null
+      },
+      {
+        "marca": "Opel",
+        "modelo": "Astra",
+        "kilometros": "110.000 km",
+        "anio": 2016,
+        "precio": 9500,
+        "motor": "Diesel",
+        "imagen": null
+      }
+    ]
+  };
+
+  // Simulamos fetch con Promise.resolve (misma estructura que AJAX real)
+  const todosLosCoches = jsonData.coches;
+
+  function renderCoches(coches) {
+    const contenedor = document.getElementById('contenedor');
+    document.getElementById('totalCount').textContent = coches.length;
+    contenedor.innerHTML = '';
+
+    if (coches.length === 0) {
+      contenedor.innerHTML = '<div class="no-results">No hay vehículos con ese filtro.</div>';
+      return;
+    }
+
+    coches.forEach(v => {
+      const div = document.createElement('div');
+      div.className = 'coche-card';
+      div.setAttribute('data-motor', v.motor);
+
+      const imgHTML = v.imagen
+        ? `<img class="card-img" src="${v.imagen}" alt="${v.marca} ${v.modelo}">`
+        : `<div class="card-img-placeholder">🚗</div>`;
+
+      div.innerHTML = `
+        ${imgHTML}
+        <div class="card-body">
+          <div class="card-header">
+            <div>
+              <div class="card-marca">${v.marca}</div>
+              <div class="card-title">${v.modelo}</div>
+            </div>
+            <div class="card-precio">${v.precio.toLocaleString('es-ES')} <small>€</small></div>
+          </div>
+          <div class="card-specs">
+            <div class="spec">
+              <div class="spec-label">Kilómetros</div>
+              <div class="spec-value">${v.kilometros}</div>
+            </div>
+            <div class="spec">
+              <div class="spec-label">Año</div>
+              <div class="spec-value">${v.anio}</div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="motor-tag motor-${v.motor}">${v.motor}</span>
+          </div>
+        </div>
+      `;
+
+      contenedor.appendChild(div);
+    });
+  }
+
+  function filtrar(btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filtro = btn.getAttribute('data-filter');
+    const cochesVisibles = filtro === 'todos'
+      ? todosLosCoches
+      : todosLosCoches.filter(c => c.motor === filtro);
+
+    renderCoches(cochesVisibles);
+  }
+
+  // Carga inicial — equivale a fetch('coches.json').then(r => r.json()).then(data => {...})
+  Promise.resolve(jsonData)
+    .then(data => {
+      renderCoches(data.coches);
+    });
+</script>
+
+</body>
+</html>
