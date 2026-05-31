@@ -53,13 +53,33 @@ Tareas y prácticas del módulo de **Implantación de Aplicaciones Web** del cic
 
 ---
 
+## RA6 — Clases, objetos y JSON
+
+| Tarea | Descripción |
+|-------|-------------|
+| **Trabajo con clases II** | Catálogo de zapatillas generado dinámicamente a partir de un array de objetos |
+| **JSON** | Diseño de un archivo JSON con datos de un estudiante: nombre, apellidos, edad, curso y asignaturas matriculadas |
+
+---
+
+## RA7 — JSON avanzado, AJAX y XML
+
+| Tarea | Descripción |
+|-------|-------------|
+| **JSON II** | Catálogo de películas en formato JSON con título, año, género, duración y actores principales |
+| **JSON, AJAX y JS** | Lectura de datos de vehículos desde un archivo JSON y renderizado dinámico en la página |
+| **XML** | Documentos XML con lista de libros y catálogo de productos electrónicos con atributos y características |
+
+---
+
 ## Tecnologías utilizadas
 
 - HTML5 · CSS3 · JavaScript (ES6+)
 - DOM API — `createElement`, `innerHTML`, `appendChild`
 - Eventos — `addEventListener`
 - AJAX — `fetch` + Promesas
-- JSON
+- JSON · XML
+- Clases y objetos en JavaScript
 
 ---
 
